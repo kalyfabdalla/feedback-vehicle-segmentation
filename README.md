@@ -19,8 +19,8 @@ If you use this code in an academic context, please cite the following publicati
 
 @INPROCEEDINGS{
 7424020, 
-author={K. A. B. Lima and K. R. T. Aires and F. W. P. D. Reis}, 
-booktitle={2015 Brazilian Conference on Intelligent Systems (BRACIS)}, 
+author={K. A. B. Lima and K. R. T. Aires and F. W. P. D. Reis},
+booktitle={2015 Brazilian Conference on Intelligent Systems (BRACIS)},
 title={Adaptive Method for Segmentation of Vehicles through Local Threshold in the Gaussian Mixture Model}, 
 year={2015}, 
 pages={204-209}, 
