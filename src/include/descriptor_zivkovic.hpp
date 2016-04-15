@@ -349,10 +349,11 @@ public:
 };
 
 
-BOOST_PYTHON_MODULE(ZivkovicDescriptor)
+BOOST_PYTHON_MODULE(libzivkovic_descriptor)
 {
     // Create the Python type object for our extension class and define __init__ function.
-    class_<ZivkovicBackgroundModel>("ZivkovicBackgroundModel", init<float,float,float,float,float,float,int,bool,float,int,int,int,int,bool>())
-        .def("backgroundModel", &ZivkovicBackgroundModel::backgroundModel)  // Add a regular member function.
+    class_<ZivkovicDescriptor>("PixelBackgroundModel",init<float,float,float,float,float,float,int,bool,float,int,int,int,int,bool>())
+        .def("backgroundModel", &PixelBackgroundModel::backgroundModel)  // Add a regular member function.
     ;
 }
+//
