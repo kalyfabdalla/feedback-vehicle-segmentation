@@ -4,14 +4,6 @@ This code implements a vehicle segementation system improved by feedback.
 
 [Paper](http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=7424020) - Adaptive Method for Segmentation of Vehicles through Local Threshold in the Gaussian Mixture Model
 
-## Disclaimer
-
-This code has been tested under Mint 17. This is research code, any fitness for a particular purpose is disclaimed.
-
-## Licence
-
-The source code is released under a GPLv3 licence. A closed-source professional edition is available for commercial purposes. In this case, please contact the authors for further info.
-
 ## Citing
 
 If you use this code in an academic context, please cite the following publication:
@@ -27,6 +19,14 @@ keywords={Gaussian processes;image classification;image colour analysis;image se
 doi={10.1109/BRACIS.2015.33}, 
 month={Nov},
 }
+
+## Disclaimer
+
+This code has been tested under Mint 17. This is research code, any fitness for a particular purpose is disclaimed.
+
+## Licence
+
+The source code is released under a GPLv3 licence. A closed-source professional edition is available for commercial purposes. In this case, please contact the authors for further info.
 
 The API is documented here: //TODO
 

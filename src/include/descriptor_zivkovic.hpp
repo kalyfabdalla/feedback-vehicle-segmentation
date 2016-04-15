@@ -3,7 +3,9 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include <opencv2/opencv_modules.hpp>
+#include <boost/python.hpp>
 
+using namespace boost::python;
 
 typedef struct PixelGMMZ
 {
@@ -16,7 +18,7 @@ typedef struct PixelGMMZ
 
 //*/
 
-int _backgroundModel(	long posPixel, float red, float green, float blue,  float * distance, unsigned char* pModesUsed, PixelGMMZ* m_aGaussians,
+int _backgroundModel(	long posPixel, float red, float green, float blue,  float * distance, float dnorm, unsigned char* pModesUsed, PixelGMMZ* m_aGaussians,
 									int m_nM, float m_fAlphaT, float m_fTb, float m_fTB, float m_fTg, float m_fSigma, float m_fPrune) {
 
 		long pos;
@@ -25,7 +27,7 @@ int _backgroundModel(	long posPixel, float red, float green, float blue,  float 
 		float m_fOneMinAlpha=1-m_fAlphaT;
 		int nModes=*pModesUsed;
 		float totalWeight=0.0f;
-		float dstFinal = 7.0f;
+		float dstFinal = dnorm;
 		for (int iModes=0;iModes<nModes;iModes++)
 		{
 			pos=posPixel+iModes;
@@ -183,7 +185,7 @@ int _backgroundModel(	long posPixel, float red, float green, float blue,  float 
 		//set the number of modes
 		*pModesUsed=nModes;
 
-		*distance = dstFinal/7.0f;
+		*distance = dstFinal/dnorm;
 		return bBackground;
 	}
 
@@ -222,7 +224,7 @@ int _backgroundModel(	long posPixel, float red, float green, float blue,  float 
 				float dG=a * muG - green;
 				float dB=a * muB - blue;
 				float dist=(dR*dR+dG*dG+dB*dB);
-				*chroma = (dist/(var*a*a))/7.0f;
+				*chroma = (dist/(var*a*a))/dnorm;
 				if (dist<m_fTb*var*a*a)
 				{
 					return 2;
@@ -347,4 +349,10 @@ public:
 };
 
 
-	
+BOOST_PYTHON_MODULE(ZivkovicDescriptor)
+{
+    // Create the Python type object for our extension class and define __init__ function.
+    class_<ZivkovicBackgroundModel>("ZivkovicBackgroundModel", init<float,float,float,float,float,float,int,bool,float,int,int,int,int,bool>())
+        .def("backgroundModel", &ZivkovicBackgroundModel::backgroundModel)  // Add a regular member function.
+    ;
+}
