@@ -3,7 +3,7 @@
 This code implements a vehicle segementation system improved by feedback.
 
 Video: //TODO
-Paper: Adaptive Method for Segmentation of Vehicles through Local Threshold in the Gaussian Mixture Model - [Paper](http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=7424020)
+Adaptive Method for Segmentation of Vehicles through Local Threshold in the Gaussian Mixture Model - [Paper](http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=7424020)
 
 ## Disclaimer
 
