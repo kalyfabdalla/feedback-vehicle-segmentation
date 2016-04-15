@@ -3,17 +3,17 @@
 This code implements a vehicle segementation system improved by feedback.
 
 Video: //TODO
-Paper: Adaptive Method for Segmentation of Vehicles through Local Threshold in the Gaussian Mixture Model - http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=7424020
+Paper: Adaptive Method for Segmentation of Vehicles through Local Threshold in the Gaussian Mixture Model - [Paper](http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=7424020)
 
-Disclaimer
+## Disclaimer
 
 This code has been tested under Mint 17. This is research code, any fitness for a particular purpose is disclaimed.
 
-Licence
+## Licence
 
 The source code is released under a GPLv3 licence. A closed-source professional edition is available for commercial purposes. In this case, please contact the authors for further info.
 
-Citing
+## Citing
 
 If you use this code in an academic context, please cite the following publication:
 
@@ -31,10 +31,10 @@ month={Nov},
 
 The API is documented here: //TODO
 
-Instructions
+## Instructions
 
 See the Wiki for more instructions. //TODO
 
-Contributing
+## Contributing
 
 You are very welcome to contribute to this project by opening a pull request via Github. 
