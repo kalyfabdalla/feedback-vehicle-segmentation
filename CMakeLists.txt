@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 2.8)
+project( zivkovic_descriptor C CXX)
+find_package( OpenCV REQUIRED )
+enable_language(CXX)
+set(ZIV_SRC src/descriptor_zivkovic.hpp)
+add_library( zivkovic_descriptor SHARED ${ZIV_SRC} )
+set_target_properties(zivkovic_descriptor PROPERTIES LINKER_LANGUAGE CXX)
