@@ -4,6 +4,8 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/opencv_modules.hpp>
 
+using namespace cv;
+
 typedef struct PixelGMMZ
 {
 	float sigma;
@@ -46,15 +48,13 @@ public:
 	int roi_width;
 	int roi_height;
 
-	PixelBackgroundModel();
-
 	PixelBackgroundModel(float fAlphaT, float fTb, float fTg, float fTB, float fSigma, float fCT, float fDnorm, int nM,
 							bool bShadowDetection, float fTau, int nNBands, int nWidth, int nHeight, int nSize,
 							bool bRemoveForeground );
 
 	void setRoi(int x, int y, int width, int height) ;
 
-	void backgroundModel(unsigned char* data, unsigned char* output, float * values);
+	void backgroundModel(void* data, void* output, void* values);
 
   void operator ()(const cv::Range& range) const;
 

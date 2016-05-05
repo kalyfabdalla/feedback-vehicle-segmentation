@@ -1,20 +1,22 @@
+extern "C"
+
 #include "background_estimator.hpp"
-
+#define BOOST_PYTHON_MAX_ARITY 25
 #include <boost/python.hpp>
-
+#include <Python.h>
 using namespace boost::python;
 
-BOOST_PYTHON_MODULE(libPixelBackgroundModel)
+BOOST_PYTHON_MODULE(PixelBackgroundModel)
 {
     // Create the Python type object for our extension class and define __init__ function.
-    class_<PixelBackgroundModel>("PixelBackgroundModel",//,init<float,float,float,float,float,float,float,int,bool,float,int,int,int,int,bool>())
-        init<>())
-        .def("backgroundModel", &PixelBackgroundModel::backgroundModel);  // Add a regular member function.
-
+    class_<PixelBackgroundModel>("PixelBackgroundModel",init<float,float,float,float,float,float,float,int,bool,float,int,int,int,int,bool>())
+        .def("backgroundModel", &PixelBackgroundModel::backgroundModel)  // Add a regular member function.
+        .def("setRoi", &PixelBackgroundModel::setRoi);
 }
 
 int _backgroundModel(	long posPixel, float red, float green, float blue,  float * distance, float dnorm, unsigned char* pModesUsed, PixelGMMZ* m_aGaussians,
 								int m_nM, float m_fAlphaT, float m_fTb, float m_fTB, float m_fTg, float m_fSigma, float m_fPrune) {
+
 
   long pos;
 	bool bFitsPDF=0;
@@ -23,6 +25,7 @@ int _backgroundModel(	long posPixel, float red, float green, float blue,  float 
 	int nModes=*pModesUsed;
 	float totalWeight=0.0f;
 	float dstFinal = dnorm;
+  //std::cout << "entrou 4" << std::endl;
 	for (int iModes=0;iModes<nModes;iModes++)
 	{
 		pos=posPixel+iModes;
@@ -116,10 +119,14 @@ int _backgroundModel(	long posPixel, float red, float green, float blue,  float 
 		totalWeight+=weight;
 		m_aGaussians[pos].weight=weight;
 	}
+
+  //std::cout << "saiu 4" << std::endl;
 	//go through all modes
 	//////
 
 	//renormalize weights
+
+  //std::cout << "entrou 5" << std::endl;
 	for (int iLocal = 0; iLocal < nModes; iLocal++)
 	{
 		m_aGaussians[posPixel+ iLocal].weight = m_aGaussians[posPixel+ iLocal].weight/totalWeight;
@@ -177,10 +184,15 @@ int _backgroundModel(	long posPixel, float red, float green, float blue,  float 
 		}
 	}
 
+  //std::cout << "saiu 5" << std::endl;
+
 	//set the number of modes
+
 	*pModesUsed=nModes;
 
-	*distance = dstFinal/dnorm;
+  //std::cout << "entrou 6" << std::endl;
+	//*distance = dstFinal/dnorm;
+  //std::cout << "saiu 6" << std::endl;
 	return bBackground;
 }
 
@@ -211,7 +223,7 @@ int _removeShadow (	long posPixel, float red, float green, float blue, float * c
 				break;
 		};
 		float a = numerator / denominator;
-		*lumina = a;
+		//*lumina = a;
 		// if tau < a < 1 then also check the color distortion
 		if ((a <= 1) && (a >= m_fTau))//m_nBeta=1
 		{
@@ -219,7 +231,7 @@ int _removeShadow (	long posPixel, float red, float green, float blue, float * c
 			float dG=a * muG - green;
 			float dB=a * muB - blue;
 			float dist=(dR*dR+dG*dG+dB*dB);
-			*chroma = (dist/(var*a*a))/dnorm;
+			//*chroma = (dist/(var*a*a))/dnorm;
 			if (dist<m_fTb*var*a*a)
 			{
 				return 2;
@@ -247,45 +259,57 @@ PixelBackgroundModel::PixelBackgroundModel(	float fAlphaT, float fTb, float fTg,
 							rGMM=(PixelGMMZ*) malloc(nSize * nM * sizeof(PixelGMMZ));
 							rnUsedModes = (unsigned char* ) malloc(nSize);
 							memset(rnUsedModes,0,nSize);//no modes used
+              roi_x = 0;
+              roi_y = 0;
+              roi_width = nHeight;
+              roi_height = nWidth;
 						}
 
 void PixelBackgroundModel::setRoi(int x, int y, int width, int height) {
 	roi_x = x;
 	roi_y = y;
-	roi_width = width;
-	roi_height = height;
+	roi_width = 2;
+	roi_height = 2;
 }
 
-void PixelBackgroundModel::backgroundModel(unsigned char* data, unsigned char* output, float * values) {
-	this->data = data;
-	this->output = output;
-	this->values = values;
-
+void PixelBackgroundModel::backgroundModel(long data, long output, long values) {
+	this->data = (unsigned char*)data;
+	this->output = (unsigned char*)output;
+	this->values = (float*)values;
+  std::cout << "comecou" << std::endl;
 	for (line=roi_y;line<roi_y+roi_height;line++) {
 		cv::parallel_for_(cv::Range(roi_x,roi_x+roi_width), *this);
 	}
+  std::cout << "terminou" << std::endl;
 }
 
 void PixelBackgroundModel::operator ()(const cv::Range& range) const
 {
   float fPrune=-fAlphaT*fCT;
   unsigned char* pUsedModes;
-      int i,idx;
+  int i,idx;
+  //std::cout << "entrou loop" << std::endl;
   for (idx = range.start; idx < range.end; ++idx)
   {
+    std::cout << "1" << std::endl;
   	i = line*nWidth+idx;
-  	// retrieve the colors
-  	float red = data[i*3+0];
-  	float green = data[i*3+1];
-  	float blue = data[i*3+2];
 
+  	float red = (unsigned char)data[i*3+0];
+    std::cout << "111" << std::endl;
+  	float green = (unsigned char)data[i*3+1];
+    std::cout << "112" << std::endl;
+  	float blue = (unsigned char)data[i*3+2];
+    std::cout << "1132" << std::endl;
   	pUsedModes = rnUsedModes+i;
 
   	int posPixel=i*nM;
+    std::cout << "11" << std::endl;
   	int result = _backgroundModel(	posPixel, red, green, blue, &(values[i*3+0]), fDnorm, pUsedModes,rGMM,
   											nM,fAlphaT, fTb, fTB, fTg, fSigma, fPrune);
-  	int nMLocal=*pUsedModes;
 
+    std::cout << "12" << std::endl;
+  	int nMLocal=*pUsedModes;
+    //std::cout << "entrou 2" << std::endl;
   	if (bShadowDetection) {
   			int resultShadow = _removeShadow(	posPixel, red, green, blue, &(values[i*3+1]), &(values[i*3+2]), fDnorm, nMLocal,rGMM, nM, fTb, fTB, fTg, fTau);
   			if (!result)
@@ -294,6 +318,9 @@ void PixelBackgroundModel::operator ()(const cv::Range& range) const
   			}
 
   	}
+    std::cout << "13" << std::endl;
+    //std::cout << "saiu 2" << std::endl;
+    //std::cout << "entrou 3" << std::endl;
   	switch (result)
   	{
   		case 0:
@@ -309,5 +336,8 @@ void PixelBackgroundModel::operator ()(const cv::Range& range) const
   			output[i]=125;
   			break;
   	}
+    std::cout << "2" << std::endl;
+    //std::cout << "saiu 3" << std::endl;
   }
+  //std::cout << "saiu loop" << std::endl;
 }

@@ -3,6 +3,9 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include <opencv2/opencv_modules.hpp>
+//#include "pointer.hpp"
+
+using namespace cv;
 
 typedef struct PixelGMMZ
 {
@@ -54,7 +57,7 @@ public:
 
 	void setRoi(int x, int y, int width, int height) ;
 
-	void backgroundModel(unsigned char* data, unsigned char* output, float * values);
+	void backgroundModel(long data, long output, long values);
 
   void operator ()(const cv::Range& range) const;
 

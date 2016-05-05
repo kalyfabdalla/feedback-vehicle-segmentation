@@ -1,35 +1,7 @@
 #include "background_estimator.hpp"
 
-#include <boost/python.hpp>
-
-using namespace boost::python;
-
-BOOST_PYTHON_MODULE(bgest)
-{
-    // Create the Python type object for our extension class and define __init__ function.
-    class_<PixelBackgroundModel>("PixelBackgroundModel",init<>())//,init<float,float,float,float,float,float,float,int,bool,float,int,int,int,int,bool>())
-        .def("backgroundModel", &PixelBackgroundModel::backgroundModel)  // Add a regular member function.
-        .add_property(fAlphaT)
-        .add_property(fTb)
-        .add_property(fTg)
-        .add_property(fTB)
-        .add_property(fSigma)
-        .add_property(fCT)
-        .add_property(fDnorm)
-        .add_property(nM)
-        .add_property(bShadowDetection)
-        .add_property(fTau)
-        .add_property(nNBands)
-        .add_property(nWidth)
-        .add_property(nHeight)
-        .add_property(nSize)
-        .add_property(bRemoveForeground)
-        ;
-}
-
 int _backgroundModel(	long posPixel, float red, float green, float blue,  float * distance, float dnorm, unsigned char* pModesUsed, PixelGMMZ* m_aGaussians,
 								int m_nM, float m_fAlphaT, float m_fTb, float m_fTB, float m_fTg, float m_fSigma, float m_fPrune) {
-
   long pos;
 	bool bFitsPDF=0;
 	bool bBackground=0;
@@ -247,11 +219,6 @@ int _removeShadow (	long posPixel, float red, float green, float blue, float * c
 	return 0;
 }
 
-PixelBackgroundModel::PixelBackgroundModel()
-{
-
-}
-
 PixelBackgroundModel::PixelBackgroundModel(	float fAlphaT, float fTb, float fTg, float fTB, float fSigma, float fCT, float fDnorm, int nM,
 						bool bShadowDetection, float fTau, int nNBands, int nWidth, int nHeight, int nSize,
 						bool bRemoveForeground  ) :
@@ -270,10 +237,12 @@ void PixelBackgroundModel::setRoi(int x, int y, int width, int height) {
 	roi_height = height;
 }
 
-void PixelBackgroundModel::backgroundModel(unsigned char* data, unsigned char* output, float * values) {
-	this->data = data;
-	this->output = output;
-	this->values = values;
+void PixelBackgroundModel::backgroundModel(void* data, void* output, void* values) {
+	this->data = (unsigned char*)data;
+	this->output = (unsigned char*)output;
+	this->values = (float*)values;
+
+  std::cout << "teste 1" << std::endl;
 
 	for (line=roi_y;line<roi_y+roi_height;line++) {
 		cv::parallel_for_(cv::Range(roi_x,roi_x+roi_width), *this);
@@ -285,8 +254,11 @@ void PixelBackgroundModel::operator ()(const cv::Range& range) const
   float fPrune=-fAlphaT*fCT;
   unsigned char* pUsedModes;
       int i,idx;
+
+  std::cout << range.start << " " << range.end << std::endl;
   for (idx = range.start; idx < range.end; ++idx)
   {
+    std::cout << "teste2" << std::endl;
   	i = line*nWidth+idx;
   	// retrieve the colors
   	float red = data[i*3+0];

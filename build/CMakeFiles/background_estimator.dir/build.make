@@ -52,14 +52,38 @@ include CMakeFiles/background_estimator.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/background_estimator.dir/flags.make
 
+CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.o: CMakeFiles/background_estimator.dir/flags.make
+CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.o: ../src/include/background_estimator.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/kalyfabdalla/workspace/vehicle-segmentation-feedback/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.o -c /home/kalyfabdalla/workspace/vehicle-segmentation-feedback/src/include/background_estimator.cpp
+
+CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/kalyfabdalla/workspace/vehicle-segmentation-feedback/src/include/background_estimator.cpp > CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.i
+
+CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/kalyfabdalla/workspace/vehicle-segmentation-feedback/src/include/background_estimator.cpp -o CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.s
+
+CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.o.requires:
+.PHONY : CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.o.requires
+
+CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.o.provides: CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.o.requires
+	$(MAKE) -f CMakeFiles/background_estimator.dir/build.make CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.o.provides.build
+.PHONY : CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.o.provides
+
+CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.o.provides.build: CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.o
+
 # Object files for target background_estimator
-background_estimator_OBJECTS =
+background_estimator_OBJECTS = \
+"CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.o"
 
 # External object files for target background_estimator
 background_estimator_EXTERNAL_OBJECTS =
 
+lib/libbackground_estimator.so: CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.o
 lib/libbackground_estimator.so: CMakeFiles/background_estimator.dir/build.make
-lib/libbackground_estimator.so: /usr/lib/x86_64-linux-gnu/libboost_python.so
 lib/libbackground_estimator.so: CMakeFiles/background_estimator.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX shared library lib/libbackground_estimator.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/background_estimator.dir/link.txt --verbose=$(VERBOSE)
@@ -68,7 +92,7 @@ lib/libbackground_estimator.so: CMakeFiles/background_estimator.dir/link.txt
 CMakeFiles/background_estimator.dir/build: lib/libbackground_estimator.so
 .PHONY : CMakeFiles/background_estimator.dir/build
 
-CMakeFiles/background_estimator.dir/requires:
+CMakeFiles/background_estimator.dir/requires: CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.o.requires
 .PHONY : CMakeFiles/background_estimator.dir/requires
 
 CMakeFiles/background_estimator.dir/clean:

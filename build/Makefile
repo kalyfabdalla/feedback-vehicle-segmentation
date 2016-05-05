@@ -155,6 +155,70 @@ background_estimator/fast:
 	$(MAKE) -f CMakeFiles/background_estimator.dir/build.make CMakeFiles/background_estimator.dir/build
 .PHONY : background_estimator/fast
 
+#=============================================================================
+# Target rules for targets named background_estimator_video
+
+# Build rule for target.
+background_estimator_video: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 background_estimator_video
+.PHONY : background_estimator_video
+
+# fast build rule for target.
+background_estimator_video/fast:
+	$(MAKE) -f CMakeFiles/background_estimator_video.dir/build.make CMakeFiles/background_estimator_video.dir/build
+.PHONY : background_estimator_video/fast
+
+src/background_estimator_video.o: src/background_estimator_video.cpp.o
+.PHONY : src/background_estimator_video.o
+
+# target to build an object file
+src/background_estimator_video.cpp.o:
+	$(MAKE) -f CMakeFiles/background_estimator_video.dir/build.make CMakeFiles/background_estimator_video.dir/src/background_estimator_video.cpp.o
+.PHONY : src/background_estimator_video.cpp.o
+
+src/background_estimator_video.i: src/background_estimator_video.cpp.i
+.PHONY : src/background_estimator_video.i
+
+# target to preprocess a source file
+src/background_estimator_video.cpp.i:
+	$(MAKE) -f CMakeFiles/background_estimator_video.dir/build.make CMakeFiles/background_estimator_video.dir/src/background_estimator_video.cpp.i
+.PHONY : src/background_estimator_video.cpp.i
+
+src/background_estimator_video.s: src/background_estimator_video.cpp.s
+.PHONY : src/background_estimator_video.s
+
+# target to generate assembly for a file
+src/background_estimator_video.cpp.s:
+	$(MAKE) -f CMakeFiles/background_estimator_video.dir/build.make CMakeFiles/background_estimator_video.dir/src/background_estimator_video.cpp.s
+.PHONY : src/background_estimator_video.cpp.s
+
+src/include/background_estimator.o: src/include/background_estimator.cpp.o
+.PHONY : src/include/background_estimator.o
+
+# target to build an object file
+src/include/background_estimator.cpp.o:
+	$(MAKE) -f CMakeFiles/background_estimator.dir/build.make CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.o
+	$(MAKE) -f CMakeFiles/background_estimator_video.dir/build.make CMakeFiles/background_estimator_video.dir/src/include/background_estimator.cpp.o
+.PHONY : src/include/background_estimator.cpp.o
+
+src/include/background_estimator.i: src/include/background_estimator.cpp.i
+.PHONY : src/include/background_estimator.i
+
+# target to preprocess a source file
+src/include/background_estimator.cpp.i:
+	$(MAKE) -f CMakeFiles/background_estimator.dir/build.make CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.i
+	$(MAKE) -f CMakeFiles/background_estimator_video.dir/build.make CMakeFiles/background_estimator_video.dir/src/include/background_estimator.cpp.i
+.PHONY : src/include/background_estimator.cpp.i
+
+src/include/background_estimator.s: src/include/background_estimator.cpp.s
+.PHONY : src/include/background_estimator.s
+
+# target to generate assembly for a file
+src/include/background_estimator.cpp.s:
+	$(MAKE) -f CMakeFiles/background_estimator.dir/build.make CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.s
+	$(MAKE) -f CMakeFiles/background_estimator_video.dir/build.make CMakeFiles/background_estimator_video.dir/src/include/background_estimator.cpp.s
+.PHONY : src/include/background_estimator.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -162,12 +226,19 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... background_estimator"
+	@echo "... background_estimator_video"
 	@echo "... edit_cache"
 	@echo "... install"
 	@echo "... install/local"
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
+	@echo "... src/background_estimator_video.o"
+	@echo "... src/background_estimator_video.i"
+	@echo "... src/background_estimator_video.s"
+	@echo "... src/include/background_estimator.o"
+	@echo "... src/include/background_estimator.i"
+	@echo "... src/include/background_estimator.s"
 .PHONY : help
 
 

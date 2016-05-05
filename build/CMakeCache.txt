@@ -131,7 +131,7 @@ CMAKE_OBJCOPY:FILEPATH=/usr/bin/objcopy
 CMAKE_OBJDUMP:FILEPATH=/usr/bin/objdump
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=background_estimator
+CMAKE_PROJECT_NAME:STATIC=background_estimator_video
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
@@ -205,11 +205,17 @@ OpenCV_LIB_DIR_OPT:PATH=
 //Value Computed by CMake
 background_estimator_BINARY_DIR:STATIC=/home/kalyfabdalla/workspace/vehicle-segmentation-feedback/build
 
-//Dependencies for the target
-background_estimator_LIB_DEPENDS:STATIC=general;/usr/lib/x86_64-linux-gnu/libboost_python.so;
+//Dependencies for target
+background_estimator_LIB_DEPENDS:STATIC=
 
 //Value Computed by CMake
 background_estimator_SOURCE_DIR:STATIC=/home/kalyfabdalla/workspace/vehicle-segmentation-feedback
+
+//Value Computed by CMake
+background_estimator_video_BINARY_DIR:STATIC=/home/kalyfabdalla/workspace/vehicle-segmentation-feedback/build
+
+//Value Computed by CMake
+background_estimator_video_SOURCE_DIR:STATIC=/home/kalyfabdalla/workspace/vehicle-segmentation-feedback
 
 
 ########################
@@ -372,5 +378,9 @@ _Boost_INCLUDE_DIR_LAST:INTERNAL=/usr/include
 //Last used Boost_LIBRARY_DIR value.
 _Boost_LIBRARY_DIR_LAST:INTERNAL=/usr/lib/x86_64-linux-gnu
 //Last used Boost_USE_MULTITHREADED value.
-_Boost_USE_MULTITHREADED_LAST:INTERNAL=TRUE
+_Boost_USE_MULTITHREADED_LAST:INTERNAL=ON
+//Last used Boost_USE_STATIC_LIBS value.
+_Boost_USE_STATIC_LIBS_LAST:INTERNAL=OFF
+//Last used Boost_USE_STATIC_RUNTIME value.
+_Boost_USE_STATIC_RUNTIME_LAST:INTERNAL=OFF
 

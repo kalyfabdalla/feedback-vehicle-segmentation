@@ -4,7 +4,8 @@ SET(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 SET(CMAKE_DEPENDS_CHECK_CXX
-  "/home/kalyfabdalla/workspace/vehicle-segmentation-feedback/src/include/background_estimator.cpp" "/home/kalyfabdalla/workspace/vehicle-segmentation-feedback/build/CMakeFiles/background_estimator.dir/src/include/background_estimator.cpp.o"
+  "/home/kalyfabdalla/workspace/vehicle-segmentation-feedback/src/background_estimator_video.cpp" "/home/kalyfabdalla/workspace/vehicle-segmentation-feedback/build/CMakeFiles/background_estimator_video.dir/src/background_estimator_video.cpp.o"
+  "/home/kalyfabdalla/workspace/vehicle-segmentation-feedback/src/include/background_estimator.cpp" "/home/kalyfabdalla/workspace/vehicle-segmentation-feedback/build/CMakeFiles/background_estimator_video.dir/src/include/background_estimator.cpp.o"
   )
 SET(CMAKE_CXX_COMPILER_ID "GNU")
 
