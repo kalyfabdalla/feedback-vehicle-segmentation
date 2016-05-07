@@ -8,6 +8,7 @@ This code implements a vehicle segementation system improved by feedback.
 
 If you use this code in an academic context, please cite the following publication:
 
+```bibtex
 @INPROCEEDINGS{
 7424020, 
 author={K. A. B. Lima and K. R. T. Aires and F. W. P. D. Reis},
@@ -19,16 +20,15 @@ keywords={Gaussian processes;image classification;image colour analysis;image se
 doi={10.1109/BRACIS.2015.33}, 
 month={Nov},
 }
+```
 
 ## Disclaimer
 
-This code has been tested under Mint 17. This is research code, any fitness for a particular purpose is disclaimed.
+This is a research code, any fitness for a particular purpose is disclaimed.
 
 ## Licence
 
 The source code is released under a GPLv3 licence. A closed-source professional edition is available for commercial purposes. In this case, please contact the authors for further info.
-
-The API is documented here: //TODO
 
 ## Instructions
 
