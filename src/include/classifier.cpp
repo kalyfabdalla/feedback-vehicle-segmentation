@@ -1,22 +1,29 @@
-#include "threshold.hpp"
+extern "C"
 
-double hist[256*256];
-double prob[256*256];
-double acc[256*256];
+#include "classifier.hpp"
 
-int getKittlerThreshold(Mat image)
+BOOST_PYTHON_MODULE(Classifier)
+{
+    // Create the Python type object for our extension class and define __init__ function.
+    class_<Classifier>("Classifier",init<>())
+        .def("threshold", &Classifier::threshold)  // Add a regular member function.
+        .def("wrapThreshold", &Classifier::wrapThreshold)
+        ;
+}
+
+int Classifier::getKittlerThreshold(unsigned char* image,int cols, int rows)
 {
 	int threshold, hist[256];
 	double prob[256], acc[256], mu0[256], mu1[256], std0[256], std1[256], sum_gl = 0, sum_lG = 0;
 	double thresh = DBL_MAX, th;
-	int iSize = image.rows*image.cols;
+	int iSize = rows*cols;
 
 	for(int i=0;i<256;i++)
 		hist[i] = 0;
 
 	//calc histogram
 	for(int i=0;i<iSize;i++) {
-		hist[image.data[i]] = hist[image.data[i]] + 1;
+		hist[image[i]] = hist[image[i]] + 1;
 	}
 
 	//normalize
@@ -105,19 +112,19 @@ int getKittlerThreshold(Mat image)
 	return threshold;
 }
 
-int getOtsuThreshold(Mat image)
+int Classifier::getOtsuThreshold(unsigned char* image,int cols, int rows)
 {
 	int threshold, hist[256];
 	double prob[256], acc[256], mu0[256], mu1[256], std0[256], std1[256], sum_gl = 0, sum_lG = 0;
 	double thresh = DBL_MAX, th;
-	int iSize = image.rows*image.cols;
+	int iSize = rows*cols;
 
 	for(int i=0;i<256;i++)
 		hist[i] = 0;
 
 	//calc histogram
 	for(int i=0;i<iSize;i++) {
-		hist[image.data[i]] = hist[image.data[i]] + 1;
+		hist[image[i]] = hist[image[i]] + 1;
 	}
 
 	//normalize
@@ -195,18 +202,18 @@ int getOtsuThreshold(Mat image)
 	return threshold;
 }
 
-int getKapurThreshold(Mat image)
+int Classifier::getKapurThreshold(unsigned char* image,int cols, int rows)
 {
 	int threshold, hist[256];
 	double prob[256], acc[256], best_entropy, sum_gl = 0, sum_lG = 0;
-	int iSize = image.rows*image.cols;
+	int iSize = rows*cols;
 
 	for(int i=0;i<256;i++)
 		hist[i] = 0;
 
 	//calc histogram
 	for(int i=0;i<iSize;i++) {
-		hist[image.data[i]] = hist[image.data[i]] + 1;
+		hist[image[i]] = hist[image[i]] + 1;
 	}
 
 	//normalize
@@ -247,18 +254,18 @@ int getKapurThreshold(Mat image)
 	return threshold;
 }
 
-int getYenThreshold(Mat image)
+int Classifier::getYenThreshold(unsigned char* image,int cols, int rows)
 {
 	int threshold, hist[256];
 	double prob[256], acc[256], best_entropy, sum_gl = 0, sum_lG = 0;
-	int iSize = image.rows*image.cols;
+	int iSize = rows*cols;
 
 	for(int i=0;i<256;i++)
 		hist[i] = 0;
 
 	//calc histogram
 	for(int i=0;i<iSize;i++) {
-		hist[image.data[i]] = hist[image.data[i]] + 1;
+		hist[image[i]] = hist[image[i]] + 1;
 	}
 
 	//normalize
@@ -300,7 +307,7 @@ int getYenThreshold(Mat image)
 }
 
 
-int getSpatialPal1Threshold(Mat image)
+int Classifier::getSpatialPal1Threshold(unsigned char* image,int cols, int rows)
 {
 	int histNorm = 0;
 	int thr = 0;
@@ -314,10 +321,10 @@ int getSpatialPal1Threshold(Mat image)
 		}
 	}
 
-	for(int i=0;i<image.rows-1;i++) {
-		for(int j=0;j<image.cols-1;j++) {
-			hist[image.data[i*image.cols+j]*256+image.data[i*image.cols+(j+1)]] = hist[image.data[i*image.cols+j]*256+image.data[i*image.cols+(j+1)]] + 1;
-			hist[image.data[i*image.cols+j]*256+image.data[(i+1)*image.cols+j]] = hist[image.data[i*image.cols+j]*256+image.data[(i+1)*image.cols+j]] + 1;
+	for(int i=0;i<rows-1;i++) {
+		for(int j=0;j<cols-1;j++) {
+			hist[image[i*cols+j]*256+image[i*cols+(j+1)]] = hist[image[i*cols+j]*256+image[i*cols+(j+1)]] + 1;
+			hist[image[i*cols+j]*256+image[(i+1)*cols+j]] = hist[image[i*cols+j]*256+image[(i+1)*cols+j]] + 1;
 			histNorm = histNorm+2;
 		}
 	}
@@ -375,7 +382,7 @@ int getSpatialPal1Threshold(Mat image)
 
 }
 
-int getSpatialPal2Threshold(Mat image)
+int Classifier::getSpatialPal2Threshold(unsigned char* image,int cols, int rows)
 {
 	int histNorm = 0;
 	int thr = 0;
@@ -389,10 +396,10 @@ int getSpatialPal2Threshold(Mat image)
 		}
 	}
 
-	for(int i=0;i<image.rows-1;i++) {
-		for(int j=0;j<image.cols-1;j++) {
-			hist[image.data[i*image.cols+j]*256+image.data[i*image.cols+(j+1)]] = hist[image.data[i*image.cols+j]*256+image.data[i*image.cols+(j+1)]] + 1;
-			hist[image.data[i*image.cols+j]*256+image.data[(i+1)*image.cols+j]] = hist[image.data[i*image.cols+j]*256+image.data[(i+1)*image.cols+j]] + 1;
+	for(int i=0;i<rows-1;i++) {
+		for(int j=0;j<cols-1;j++) {
+			hist[image[i*cols+j]*256+image[i*cols+(j+1)]] = hist[image[i*cols+j]*256+image[i*cols+(j+1)]] + 1;
+			hist[image[i*cols+j]*256+image[(i+1)*cols+j]] = hist[image[i*cols+j]*256+image[(i+1)*cols+j]] + 1;
 			histNorm = histNorm+2;
 		}
 	}
@@ -448,4 +455,45 @@ int getSpatialPal2Threshold(Mat image)
 //*/
 	return thr;
 
+}
+
+
+void Classifier::threshold(unsigned char* image, unsigned char* output, int threshold_flag, int cols, int rows)
+{
+  cv::Mat inMat = cv::Mat(rows,cols,CV_8UC1,image);
+  cv::Mat outMat = cv::Mat(rows,cols,CV_8UC1,output);
+  int thresh;
+  switch (threshold_flag) {
+    case THRESHOLD_YEN:
+      thresh = getYenThreshold(image,cols,rows);
+      break;
+    case THRESHOLD_KAPUR:
+      thresh = getKapurThreshold(image,cols,rows);
+      break;
+    case THRESHOLD_KITTLER:
+      thresh = getKittlerThreshold(image,cols,rows);
+      break;
+    case THRESHOLD_OTSU:
+      thresh = getOtsuThreshold(image,cols,rows);
+      break;
+    case THRESHOLD_PAL_1:
+      thresh = getSpatialPal1Threshold(image,cols,rows);
+      break;
+    case THRESHOLD_PAL_2:
+      thresh = getSpatialPal2Threshold(image,cols,rows);
+      break;
+  }
+
+  std::cout << thresh << std::endl;
+  cv::threshold(inMat,outMat,thresh,255,THRESH_BINARY);
+}
+
+void Classifier::wrapThreshold(np::ndarray & image, np::ndarray & output, int threshold_flag)
+{
+  this->threshold(
+    reinterpret_cast<unsigned char*>(image.get_data()),
+    reinterpret_cast<unsigned char*>(output.get_data()),
+    threshold_flag,
+    image.shape(0),
+    image.shape(1));
 }

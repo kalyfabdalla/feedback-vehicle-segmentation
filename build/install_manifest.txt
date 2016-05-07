@@ -1,1 +1,0 @@
-/usr/local/lib/python2.7/site-packages/libbackground_estimator.so
