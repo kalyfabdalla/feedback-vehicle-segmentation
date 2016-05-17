@@ -4,16 +4,25 @@ extern "C"
 
 BOOST_PYTHON_MODULE(Classifier)
 {
-    // Create the Python type object for our extension class and define __init__ function.
-    class_<Classifier>("Classifier",init<>())
-        .def("threshold", &Classifier::threshold)  // Add a regular member function.
-        .def("wrapThreshold", &Classifier::wrapThreshold)
-        ;
+  p::scope().attr("THRESHOLD_METHOD_KITTLER") = 1;
+  p::scope().attr("THRESHOLD_METHOD_KAPUR") = 2;
+  p::scope().attr("THRESHOLD_METHOD_YEN") = 4;
+  p::scope().attr("THRESHOLD_METHOD_OTSU") = 8;
+  p::scope().attr("THRESHOLD_METHOD_PAL_1") = 16;
+  p::scope().attr("THRESHOLD_METHOD_PAL_2") = 32;
+  p::scope().attr("THRESHOLD_TYPE_BINARY") = 64;
+  p::scope().attr("THRESHOLD_TYPE_BINARY_INV") = 128;
+  class_<Classifier>("Classifier",init<>())
+    .def("threshold", &Classifier::threshold)  // Add a regular member function.
+    .def("wrapThreshold", &Classifier::wrapThreshold)
+    .def("thresholdMatrix", &Classifier::thresholdMatrix)  // Add a regular member function.
+    .def("wrapThresholdMatrix", &Classifier::wrapThresholdMatrix)
+    ;
 }
 
 int Classifier::getKittlerThreshold(unsigned char* image,int cols, int rows)
 {
-	int threshold, hist[256];
+	int threshold = 0, hist[256];
 	double prob[256], acc[256], mu0[256], mu1[256], std0[256], std1[256], sum_gl = 0, sum_lG = 0;
 	double thresh = DBL_MAX, th;
 	int iSize = rows*cols;
@@ -114,7 +123,7 @@ int Classifier::getKittlerThreshold(unsigned char* image,int cols, int rows)
 
 int Classifier::getOtsuThreshold(unsigned char* image,int cols, int rows)
 {
-	int threshold, hist[256];
+	int threshold = 0, hist[256];
 	double prob[256], acc[256], mu0[256], mu1[256], std0[256], std1[256], sum_gl = 0, sum_lG = 0;
 	double thresh = DBL_MAX, th;
 	int iSize = rows*cols;
@@ -204,8 +213,8 @@ int Classifier::getOtsuThreshold(unsigned char* image,int cols, int rows)
 
 int Classifier::getKapurThreshold(unsigned char* image,int cols, int rows)
 {
-	int threshold, hist[256];
-	double prob[256], acc[256], best_entropy, sum_gl = 0, sum_lG = 0;
+	int threshold=0, hist[256];
+	double prob[256], acc[256], best_entropy = 0, sum_gl = 0, sum_lG = 0;
 	int iSize = rows*cols;
 
 	for(int i=0;i<256;i++)
@@ -256,8 +265,9 @@ int Classifier::getKapurThreshold(unsigned char* image,int cols, int rows)
 
 int Classifier::getYenThreshold(unsigned char* image,int cols, int rows)
 {
-	int threshold, hist[256];
-	double prob[256], acc[256], best_entropy, sum_gl = 0, sum_lG = 0;
+	int threshold=0, hist[256];
+
+	double prob[256], acc[256], best_entropy = 0, sum_gl = 0, sum_lG = 0;
 	int iSize = rows*cols;
 
 	for(int i=0;i<256;i++)
@@ -312,8 +322,6 @@ int Classifier::getSpatialPal1Threshold(unsigned char* image,int cols, int rows)
 	int histNorm = 0;
 	int thr = 0;
 	double best_entropy = 0;
-
-
 
 	for(int i=0;i<256;i++) {
 		for(int j=0;j<256;j++) {
@@ -462,30 +470,48 @@ void Classifier::threshold(unsigned char* image, unsigned char* output, int thre
 {
   cv::Mat inMat = cv::Mat(rows,cols,CV_8UC1,image);
   cv::Mat outMat = cv::Mat(rows,cols,CV_8UC1,output);
-  int thresh;
-  switch (threshold_flag) {
-    case THRESHOLD_YEN:
+  int thresh = 0;
+  if ((THRESHOLD_METHOD_YEN & threshold_flag) != 0)
       thresh = getYenThreshold(image,cols,rows);
-      break;
-    case THRESHOLD_KAPUR:
-      thresh = getKapurThreshold(image,cols,rows);
-      break;
-    case THRESHOLD_KITTLER:
-      thresh = getKittlerThreshold(image,cols,rows);
-      break;
-    case THRESHOLD_OTSU:
-      thresh = getOtsuThreshold(image,cols,rows);
-      break;
-    case THRESHOLD_PAL_1:
-      thresh = getSpatialPal1Threshold(image,cols,rows);
-      break;
-    case THRESHOLD_PAL_2:
-      thresh = getSpatialPal2Threshold(image,cols,rows);
-      break;
-  }
+  else if ((THRESHOLD_METHOD_KAPUR & threshold_flag) != 0)
+    thresh = getKapurThreshold(image,cols,rows);
+  else if ((THRESHOLD_METHOD_KITTLER & threshold_flag) != 0)
+    thresh = getKittlerThreshold(image,cols,rows);
+  else if ((THRESHOLD_METHOD_OTSU & threshold_flag) != 0)
+    thresh = getOtsuThreshold(image,cols,rows);
+  else if ((THRESHOLD_METHOD_PAL_1 & threshold_flag) != 0)
+    thresh = getSpatialPal1Threshold(image,cols,rows);
+  else if ((THRESHOLD_METHOD_PAL_2 & threshold_flag) != 0)
+    thresh = getSpatialPal2Threshold(image,cols,rows);
 
-  std::cout << thresh << std::endl;
-  cv::threshold(inMat,outMat,thresh,255,THRESH_BINARY);
+  if ((THRESHOLD_TYPE_BINARY & threshold_flag) != 0)
+    cv::threshold(inMat,outMat,thresh,255,THRESH_BINARY);
+  else if ((THRESHOLD_TYPE_BINARY_INV & threshold_flag) != 0)
+    cv::threshold(inMat,outMat,thresh,255,THRESH_BINARY_INV);
+}
+
+void Classifier::thresholdMatrix(unsigned char* image, unsigned char* thresh, unsigned char* output, int threshold_flag, int cols, int rows)
+{
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      if ((THRESHOLD_TYPE_BINARY & threshold_flag) !=0) {
+        if (image[i*cols+j]>thresh[i*cols+j]) {
+          output[i*cols+j] = 255;
+        }
+        else {
+          output[i*cols+j] = 0;
+        }
+      }
+      else if ((THRESHOLD_TYPE_BINARY_INV & threshold_flag) !=0) {
+        if (image[i*cols+j]>thresh[i*cols+j]) {
+          output[i*cols+j] = 0;
+        }
+        else {
+          output[i*cols+j] = 255;
+        }
+      }
+    }
+  }
 }
 
 void Classifier::wrapThreshold(np::ndarray & image, np::ndarray & output, int threshold_flag)
@@ -494,6 +520,17 @@ void Classifier::wrapThreshold(np::ndarray & image, np::ndarray & output, int th
     reinterpret_cast<unsigned char*>(image.get_data()),
     reinterpret_cast<unsigned char*>(output.get_data()),
     threshold_flag,
-    image.shape(0),
-    image.shape(1));
+    image.shape(1),
+    image.shape(0));
+}
+
+void Classifier::wrapThresholdMatrix(np::ndarray & image, np::ndarray & thresh, np::ndarray & output, int threshold_flag)
+{
+  this->thresholdMatrix(
+    reinterpret_cast<unsigned char*>(image.get_data()),
+    reinterpret_cast<unsigned char*>(thresh.get_data()),
+    reinterpret_cast<unsigned char*>(output.get_data()),
+    threshold_flag,
+    image.shape(1),
+    image.shape(0));
 }

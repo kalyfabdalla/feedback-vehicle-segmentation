@@ -21,6 +21,14 @@ setup(name="VehicleSegmentation",
         "opencv_legacy" ,"opencv_ml" ,"opencv_nonfree" ,"opencv_objdetect" ,
         "opencv_ocl" ,"opencv_photo" ,"opencv_stitching" ,"opencv_superres" ,
         "opencv_ts" ,"opencv_video" ,"opencv_videostab"]),
+        Extension("Filtering", ["src/include/filtering.cpp"],
+        include_dirs = ['/usr/local/include','/usr/local/include/python2.7','src/include'],
+        library_dirs=['/usr/local/lib'],
+        libraries = ["boost_python","boost_numpy","opencv_calib3d" ,"opencv_contrib" ,"opencv_core" ,"opencv_features2d" ,
+        "opencv_flann" ,"opencv_gpu" ,"opencv_highgui" ,"opencv_imgproc" ,
+        "opencv_legacy" ,"opencv_ml" ,"opencv_nonfree" ,"opencv_objdetect" ,
+        "opencv_ocl" ,"opencv_photo" ,"opencv_stitching" ,"opencv_superres" ,
+        "opencv_ts" ,"opencv_video" ,"opencv_videostab"]),
     ])
 
 

@@ -1,12 +1,14 @@
 #ifndef CLASSIFIER_HPP_
 #define CLASSIFIER_HPP_
 
-#define THRESHOLD_KITTLER 1
-#define THRESHOLD_KAPUR 2
-#define THRESHOLD_YEN 3
-#define THRESHOLD_OTSU 4
-#define THRESHOLD_PAL_1 5
-#define THRESHOLD_PAL_2 6
+#define THRESHOLD_METHOD_KITTLER 1
+#define THRESHOLD_METHOD_KAPUR 2
+#define THRESHOLD_METHOD_YEN 4
+#define THRESHOLD_METHOD_OTSU 8
+#define THRESHOLD_METHOD_PAL_1 16
+#define THRESHOLD_METHOD_PAL_2 32
+#define THRESHOLD_TYPE_BINARY 64
+#define THRESHOLD_TYPE_BINARY_INV 128
 
 #define BOOST_PYTHON_MAX_ARITY 25
 #define M_LOG2E 1.44269504088896340736 //log2(e)
@@ -46,7 +48,10 @@ private:
 
 public:
   void threshold(unsigned char* image, unsigned char* output, int threshold_flag, int cols, int rows);
+  void thresholdMatrix(unsigned char* image, unsigned char* thresh, unsigned char* output, int threshold_flag, int cols, int rows);
+
   void wrapThreshold(np::ndarray & image, np::ndarray & output, int threshold_flag);
+  void wrapThresholdMatrix(np::ndarray & image, np::ndarray & thresh, np::ndarray & output, int threshold_flag);
 
 };
 
