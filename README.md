@@ -32,7 +32,16 @@ The source code is released under a GPLv3 licence. A closed-source professional 
 
 ## Instructions
 
-See the Wiki for more instructions. //TODO
+### Requeriments
+
+1. Python 2.7 `<addr>` sudo apt-get install python-dev
+2. OpenCV 2.4 with Python support (see [link](http://docs.opencv.org/2.4/doc/tutorials/introduction/linux_install/linux_install.html))
+3. Boost-Python `<addr>` sudo apt-get install libboost-python-dev
+4. Boost-Numpy (see [link](https://github.com/ndarray/Boost.NumPy))
+
+### Compilation
+
+`<addr>` sudo python setup.py install
 
 ## Contributing
 
