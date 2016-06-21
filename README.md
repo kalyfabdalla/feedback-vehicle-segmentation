@@ -39,6 +39,12 @@ Python 2.7
 ```
 sudo apt-get install python-dev
 ```
+Python-Numpy
+
+```
+sudo apt-get install python-numpy
+```
+
 OpenCV 2.4 with Python support (see [link](http://docs.opencv.org/2.4/doc/tutorials/introduction/linux_install/linux_install.html))
 
 Boost-Python
