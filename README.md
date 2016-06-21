@@ -44,18 +44,20 @@ OpenCV 2.4 with Python support (see [link](http://docs.opencv.org/2.4/doc/tutori
 
 Boost-Numpy (see [link](https://github.com/ndarray/Boost.NumPy))
 
-### Compilation
-
-```
-sudo python setup.py clean build install
-```
+### Build
 
 Set the environment variable (if you did not)
 ```
 export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 ```
 
-### Example
+Build the python library by the command
+
+```
+sudo python setup.py clean build install
+```
+
+### Usage
 
 ```
 python tests/webcam.py
