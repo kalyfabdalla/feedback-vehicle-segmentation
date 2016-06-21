@@ -47,7 +47,9 @@ sudo apt-get install libboost-python-dev
 
 ### Compilation
 
-`<addr>` sudo python setup.py install
+```
+sudo python setup.py install
+```
 
 ## Contributing
 
