@@ -32,7 +32,36 @@ The source code is released under a GPLv3 licence. A closed-source professional 
 
 ## Instructions
 
-See the Wiki for more instructions. //TODO
+### Requeriments
+
+python2.7, python-numpy, boost-python 
+
+```
+sudo apt-get install python-dev python-numpy libboost-python-dev
+```
+
+OpenCV 2.4 with Python support (see [link](http://docs.opencv.org/2.4/doc/tutorials/introduction/linux_install/linux_install.html))
+
+Boost-Numpy (see [link](https://github.com/ndarray/Boost.NumPy))
+
+### Build
+
+Set the environment variable (if you did not)
+```
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+```
+
+Build the python library by the command
+
+```
+sudo python setup.py clean build install
+```
+
+### Usage
+
+```
+python tests/webcam.py
+```
 
 ## Contributing
 
