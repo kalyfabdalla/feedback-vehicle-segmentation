@@ -32,12 +32,14 @@ class PixelBackgroundModel : public cv::ParallelLoopBody
 {
 private:
 	float fAlphaT;
-	float fTb;
-	float fTg;
-	float fTB;
-	float fSigma;
-	float fCT;
-	float fDnorm;
+	float fTb; //threshold mahala
+	float fTg; //check fit
+	float fTB; //threshold weight
+	float fSigma; //default sigma
+	float fMinSigma;
+	float fMaxSigma;
+	float fCT; //max foreground data
+	float fDnorm; //norm distance (default=7.0)
 	int nM;
 	bool bShadowDetection;
 	float fTau;
@@ -63,9 +65,9 @@ public:
 
 	PixelBackgroundModel();
 
-	PixelBackgroundModel(float fAlphaT, float fTb, float fTg, float fTB, float fSigma, float fCT, float fDnorm, int nM,
-							bool bShadowDetection, float fTau, int nNBands, int nWidth, int nHeight, int nSize,
-							bool bRemoveForeground );
+	PixelBackgroundModel(float fAlphaT, float fTb, float fTg, float fTB, float fSigma, float fMinSigma, float fMaxSigma,
+							float fCT, float fDnorm, int nM, bool bShadowDetection, float fTau, int nNBands, int nWidth,
+							int nHeight, int nSize,	bool bRemoveForeground );
 
 	void setRoi(int x, int y, int width, int height) ;
 

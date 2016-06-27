@@ -5,13 +5,13 @@ extern "C"
 BOOST_PYTHON_MODULE(BackgroundModel)
 {
     // Create the Python type object for our extension class and define __init__ function.
-    class_<PixelBackgroundModel>("PixelBackgroundModel",init<float,float,float,float,float,float,float,int,bool,float,int,int,int,int,bool>())
+    class_<PixelBackgroundModel>("PixelBackgroundModel",init<float,float,float,float,float,float,float,float,float,int,bool,float,int,int,int,int,bool>())
         .def("backgroundModel", &PixelBackgroundModel::backgroundModel)  // Add a regular member function.
         .def("wrapBackgroundModel", &PixelBackgroundModel::wrapBackgroundModel);
 }
 
 int _backgroundModel(	long posPixel, float red, float green, float blue,  float * distance, float dnorm, unsigned char* pModesUsed, PixelGMMZ* m_aGaussians,
-								int m_nM, float m_fAlphaT, float m_fTb, float m_fTB, float m_fTg, float m_fSigma, float m_fPrune) {
+								int m_nM, float m_fAlphaT, float m_fTb, float m_fTB, float m_fTg, float m_fSigma, float m_fMinSigma, float m_fMaxSigma, float m_fPrune) {
 
 
   long pos;
@@ -62,7 +62,7 @@ int _backgroundModel(	long posPixel, float red, float green, float blue,  float 
 
 				float sigmanew = var + k*(dist-var);
 
-				m_aGaussians[pos].sigma =sigmanew< 4 ? 4 : sigmanew>5*m_fSigma?5*m_fSigma:sigmanew;
+				m_aGaussians[pos].sigma =sigmanew< m_fMinSigma ? m_fMinSigma : sigmanew>m_fMaxSigma?m_fMaxSigma:sigmanew;
 
 				for (int iLocal = iModes;iLocal>0;iLocal--)
 				{
@@ -246,10 +246,10 @@ PixelBackgroundModel::PixelBackgroundModel()
 
 }
 
-PixelBackgroundModel::PixelBackgroundModel(	float fAlphaT, float fTb, float fTg, float fTB, float fSigma, float fCT, float fDnorm, int nM,
+PixelBackgroundModel::PixelBackgroundModel(	float fAlphaT, float fTb, float fTg, float fTB, float fSigma, float fMinSigma, float fMaxSigma, float fCT, float fDnorm, int nM,
 						bool bShadowDetection, float fTau, int nNBands, int nWidth, int nHeight, int nSize,
 						bool bRemoveForeground  ) :
-						fAlphaT(fAlphaT), fTb(fTb), fTg(fTg), fTB(fTB), fSigma(fSigma), fCT(fCT), fDnorm(fDnorm), nM(nM),
+						fAlphaT(fAlphaT), fTb(fTb), fTg(fTg), fTB(fTB), fSigma(fSigma), fMinSigma(fMinSigma), fMaxSigma(fMaxSigma), fCT(fCT), fDnorm(fDnorm), nM(nM),
 						bShadowDetection(bShadowDetection), fTau(fTau), nNBands(nNBands), nWidth(nWidth), nHeight(nHeight),
 						nSize(nSize), bRemoveForeground(bRemoveForeground) {
 							rGMM=(PixelGMMZ*) malloc(nSize * nM * sizeof(PixelGMMZ));
@@ -309,7 +309,7 @@ void PixelBackgroundModel::operator ()(const cv::Range& range) const
   	int posPixel=i*nM;
     //std::cout << "11" << std::endl;
   	int result = _backgroundModel(	posPixel, red, green, blue, &(values[i*3+0]), fDnorm, pUsedModes,rGMM,
-  											nM,fAlphaT, fTb, fTB, fTg, fSigma, fPrune);
+  											nM,fAlphaT, fTb, fTB, fTg, fSigma, fMinSigma, fMaxSigma, fPrune);
 
     //std::cout << "12" << std::endl;
   	int nMLocal=*pUsedModes;
