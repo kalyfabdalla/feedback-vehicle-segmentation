@@ -37,7 +37,8 @@ void Filtering::fillContours(unsigned char* image, unsigned char* output, int va
 
   for (unsigned int i=0;i<contours.size();i++) {
     int area = contourArea(contours[i]);
-    if (area>300){
+    int areaImage = cols*rows;
+    if (area>areaImage*0.001 && area<areaImage*0.05){
       drawContours(outputMat, contours, i, Scalar(value),CV_FILLED);
     }
   }
@@ -55,7 +56,8 @@ void Filtering::fillConvexHull(unsigned char* image, unsigned char* output, int 
   }
   for (unsigned int i=0;i<hull.size();i++) {
     int area = contourArea(hull[i]);
-    if (area>300){
+    int areaImage = cols*rows;
+    if (area>areaImage*0.001 && area<areaImage*0.05){
       drawContours(outputMat, hull, i, Scalar(value),CV_FILLED);
     }
   }
