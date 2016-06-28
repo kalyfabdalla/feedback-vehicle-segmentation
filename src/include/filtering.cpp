@@ -25,7 +25,7 @@ void Filtering::filter(unsigned char* image, unsigned char* output, int filter_f
   cv::Mat imageMat = cv::Mat(rows,cols,CV_8UC1,image);
   cv::Mat outputMat = cv::Mat(rows,cols,CV_8UC1,output);
 
-  cv::medianBlur(imageMat, outputMat, 5);
+  cv::medianBlur(imageMat, outputMat, 11);
 }
 
 void Filtering::fillContours(unsigned char* image, unsigned char* output, int value, int cols, int rows)
@@ -38,7 +38,7 @@ void Filtering::fillContours(unsigned char* image, unsigned char* output, int va
   for (unsigned int i=0;i<contours.size();i++) {
     int area = contourArea(contours[i]);
     int areaImage = cols*rows;
-    if (area>areaImage*0.001 && area<areaImage*0.05){
+    if (area>areaImage*0.001){// && area<areaImage*0.05){
       drawContours(outputMat, contours, i, Scalar(value),CV_FILLED);
     }
   }
@@ -57,7 +57,7 @@ void Filtering::fillConvexHull(unsigned char* image, unsigned char* output, int 
   for (unsigned int i=0;i<hull.size();i++) {
     int area = contourArea(hull[i]);
     int areaImage = cols*rows;
-    if (area>areaImage*0.001 && area<areaImage*0.05){
+    if (area>areaImage*0.001){//&& area<areaImage*0.05){
       drawContours(outputMat, hull, i, Scalar(value),CV_FILLED);
     }
   }

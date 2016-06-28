@@ -316,7 +316,7 @@ void PixelBackgroundModel::operator ()(const cv::Range& range) const
     ////std::cout << "entrou 2" << std::endl;
   	if (bShadowDetection) {
   			int resultShadow = _removeShadow(	posPixel, red, green, blue, &(values[i*3+1]), &(values[i*3+2]), fDnorm, nMLocal,rGMM, nM, fTb, fTB, fTg, fTau);
-  			if (!result)
+  			if (result && resultShadow)
   			{
   				result= resultShadow;
   			}
