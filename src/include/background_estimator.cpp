@@ -200,6 +200,7 @@ int _removeShadow (	long posPixel, float red, float green, float blue, float * c
 	long pos;
 	float tWeight = 0;
 	float numerator, denominator;
+
 	// check all the distributions, marked as background:
 	for (int iModes=0;iModes<nModes;iModes++)
 	{
