@@ -8,13 +8,10 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include <opencv2/opencv_modules.hpp>
-#include <boost/python.hpp>
-#include <boost/numpy.hpp>
-
-using namespace boost::python;
+#include <boost/python/numpy.hpp>
 
 namespace p = boost::python;
-namespace np = boost::numpy;
+namespace np = boost::python::numpy;
 
 using namespace cv;
 

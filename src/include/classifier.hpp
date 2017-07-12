@@ -21,15 +21,15 @@
 #include <iostream>
 #include <cmath>
 #include <limits>
-#include <boost/python.hpp>
-#include <boost/numpy.hpp>
+#include <boost/python/numpy.hpp>
 
 using namespace cv;
 using namespace std;
-using namespace boost::python;
+
 
 namespace p = boost::python;
-namespace np = boost::numpy;
+namespace np = boost::python::numpy;
+
 
 
 class Classifier
