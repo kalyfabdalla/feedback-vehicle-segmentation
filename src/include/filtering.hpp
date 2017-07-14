@@ -19,6 +19,7 @@
 
 using namespace cv;
 using namespace std;
+using namespace boost::python;
 
 namespace p = boost::python;
 namespace np = boost::python::numpy;

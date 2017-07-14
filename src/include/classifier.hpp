@@ -25,6 +25,8 @@
 
 using namespace cv;
 using namespace std;
+using namespace boost::python;
+
 
 
 namespace p = boost::python;

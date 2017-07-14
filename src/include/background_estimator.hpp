@@ -14,6 +14,7 @@ namespace p = boost::python;
 namespace np = boost::python::numpy;
 
 using namespace cv;
+using namespace boost::python;
 
 typedef struct PixelGMMZ
 {
