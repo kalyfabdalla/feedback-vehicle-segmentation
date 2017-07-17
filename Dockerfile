@@ -11,6 +11,7 @@ RUN cd ./python && scons
 RUN mkdir /vsf
 ADD ./src /vsf/src
 ADD setup.py /vsf/setup.py
+
 WORKDIR /vsf
 
-RUN python setup.py build
+RUN python setup.py clean build install
